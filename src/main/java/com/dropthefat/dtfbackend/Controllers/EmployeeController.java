@@ -9,11 +9,11 @@ import com.dropthefat.dtfbackend.Services.EmployeeServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -25,7 +25,7 @@ public class EmployeeController {
     EmployeeServices employeeServices;
 
     // Get all employee
-    @RequestMapping(value = "/getEmployee", method = RequestMethod.GET)
+    @RequestMapping(value = "/employee", method = RequestMethod.GET)
     public List<Employee> getEmployee(){
         try {
             List<Employee> result = employeeServices.getAllEmployee();
@@ -37,8 +37,8 @@ public class EmployeeController {
     }
 
     // Get specific employee with parameter id
-    @RequestMapping(value = "/getEmployee", method = RequestMethod.GET, params = "id")
-    public Employee getEmployee(@RequestParam("id") String id){
+    @RequestMapping(value = "/employee/{id}", method = RequestMethod.GET)
+    public Employee getEmployee(@PathVariable(value="id") String id){
         try{
             Employee result = employeeServices.getEmployeeById(id);
             return result;
@@ -48,7 +48,7 @@ public class EmployeeController {
         }
     }
 
-    @PostMapping(path = "/addEmployee", consumes = "application/json", produces = "application/json")
+    @PostMapping(path = "/employee", consumes = "application/json", produces = "application/json")
     public Response addEmployee(@RequestBody Employee employee){
         try{
             Response res = employeeServices.addEmployee(employee);
@@ -60,8 +60,8 @@ public class EmployeeController {
         }
     }
 
-    @RequestMapping(value = "/updateEmployee", method = RequestMethod.POST)
-    public Response updateEmployee(@RequestParam("id") String id, @RequestBody Employee employee){
+    @RequestMapping(value = "/employee/{id}", method = RequestMethod.PUT)
+    public Response updateEmployee(@PathVariable(value="id") String id, @RequestBody Employee employee){
         try{
             return employeeServices.updateEmployee(id, employee);
         } catch(Exception ex){
@@ -70,8 +70,8 @@ public class EmployeeController {
         }
     }
     
-    @RequestMapping(value = "/deleteEmployee", method = RequestMethod.DELETE)
-    public Response deleteEmployee(@RequestParam("id") String id){
+    @RequestMapping(value = "/employee/{id}", method = RequestMethod.DELETE)
+    public Response deleteEmployee(@PathVariable(value="id") String id){
         try{
             return employeeServices.deleteEmployee(id);
         } catch(Exception ex){
