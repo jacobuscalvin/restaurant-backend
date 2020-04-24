@@ -2,9 +2,7 @@ package com.dropthefat.dtfbackend.Services;
 
 import java.io.File;
 import java.io.FileInputStream;
-
 import javax.annotation.PostConstruct;
-
 import org.springframework.stereotype.Service;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;

@@ -1,7 +1,12 @@
 package com.dropthefat.dtfbackend.Models;
 
+import com.google.cloud.firestore.annotation.Exclude;
+import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
+
+@IgnoreExtraProperties
 public class Employee {
     
+    private String id;
     private String name;
     private String address;
     private String phone;
@@ -45,6 +50,15 @@ public class Employee {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    @Exclude
+    public String getId() {
+      return id;
+    }
+  
+    public void setId(String id) {
+      this.id = id;
     }
 
 }
