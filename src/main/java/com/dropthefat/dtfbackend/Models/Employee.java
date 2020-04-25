@@ -14,12 +14,6 @@ public class Employee {
 
     public Employee(){ };
 
-    public Employee(String name, String address, String phone, String position){
-        this.name = name;
-        this.address = address;
-        this.phone = phone;
-    }
-
     public String getName() {
         return name;
     }

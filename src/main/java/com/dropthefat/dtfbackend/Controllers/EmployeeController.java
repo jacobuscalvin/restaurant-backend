@@ -48,6 +48,7 @@ public class EmployeeController {
         }
     }
 
+    // Add new employee
     @PostMapping(path = "/employee", consumes = "application/json", produces = "application/json")
     public Response addEmployee(@RequestBody Employee employee){
         try{
@@ -60,6 +61,7 @@ public class EmployeeController {
         }
     }
 
+    // Update exisiting employee
     @RequestMapping(value = "/employee/{id}", method = RequestMethod.PUT)
     public Response updateEmployee(@PathVariable(value="id") String id, @RequestBody Employee employee){
         try{
@@ -70,6 +72,7 @@ public class EmployeeController {
         }
     }
     
+    // Delete existing employee
     @RequestMapping(value = "/employee/{id}", method = RequestMethod.DELETE)
     public Response deleteEmployee(@PathVariable(value="id") String id){
         try{

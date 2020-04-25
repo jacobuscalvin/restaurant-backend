@@ -14,7 +14,7 @@ public class Table {
 	public Table(){ }
 	 //We will ignore this ID from serialization, so that the id key won't get into the db. 
 	
-	 @Exclude
+	@Exclude
 	public String getId() {
 		return id;
 	}
@@ -22,8 +22,6 @@ public class Table {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	
 	
 	public String getStatus() {
 		return status;
