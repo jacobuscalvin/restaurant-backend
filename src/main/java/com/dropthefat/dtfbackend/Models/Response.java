@@ -1,14 +1,13 @@
 package com.dropthefat.dtfbackend.Models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.google.cloud.Timestamp;
 
 //This class is just a wrapper to send message as response after doing a request.
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Response {
   private boolean status;
-  private Timestamp updateTime;
+  private Long updateTime;
   private String message;
   private String docId;
 
@@ -27,11 +26,15 @@ public class Response {
     this.status = status;
   }
 
-  public Timestamp getUpdateTime() {
-    return updateTime;
+  public String getUpdateTime() {
+    if(updateTime == null){
+      return null;
+    }else{
+      return updateTime + "ms";
+    }
   }
 
-  public void setUpdateTime(Timestamp updateTime) {
+  public void setUpdateTime(Long updateTime) {
     this.updateTime = updateTime;
   }
 

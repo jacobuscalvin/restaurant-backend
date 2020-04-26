@@ -59,12 +59,14 @@ public class ReservationServices {
 
     public Response updateReservation(String id, Reservation reservation) throws InterruptedException, ExecutionException {
         Firestore db = FirestoreClient.getFirestore();
+        Long tStart = java.lang.System.currentTimeMillis();
         ApiFuture<DocumentSnapshot> future = db.collection("reservation").document(id).get();
         if(future.get().exists()){
             ApiFuture<WriteResult> ref = db.collection("reservation").document(id).set(reservation);
+            Long tEnd = ref.get().getUpdateTime().toDate().getTime();
             Response res = new Response();
             res.setStatus(true);
-            res.setUpdateTime(ref.get().getUpdateTime());
+            res.setUpdateTime(tEnd-tStart);
             res.setDocId(future.get().getId());
             return res;
         } else{
@@ -74,12 +76,14 @@ public class ReservationServices {
 
     public Response deleteReservation(String id) throws InterruptedException, ExecutionException {
         Firestore db = FirestoreClient.getFirestore();
+        Long tStart = java.lang.System.currentTimeMillis();
         ApiFuture<DocumentSnapshot> future = db.collection("reservation").document(id).get();
         if(future.get().exists()){
             ApiFuture<WriteResult> ref = db.collection("reservation").document(id).delete();
+            Long tEnd = ref.get().getUpdateTime().toDate().getTime();
             Response res = new Response();
             res.setStatus(true);
-            res.setUpdateTime(ref.get().getUpdateTime());
+            res.setUpdateTime(tEnd-tStart);
             return res;
         } else{
             Response res = new Response(false, "Document not found!");

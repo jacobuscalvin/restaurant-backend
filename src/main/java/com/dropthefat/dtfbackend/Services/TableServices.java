@@ -57,12 +57,14 @@ public class TableServices {
 
       public Response updateTable(String id,Table table) throws InterruptedException, ExecutionException {
         Firestore db = FirestoreClient.getFirestore();
+        Long tStart = java.lang.System.currentTimeMillis();
         ApiFuture<DocumentSnapshot> future = db.collection("table").document(id).get();
         if(future.get().exists()){
-          ApiFuture<WriteResult> result = db.collection("table").document(id).set(table);
+          ApiFuture<WriteResult> ref = db.collection("table").document(id).set(table);
+          Long tEnd = ref.get().getUpdateTime().toDate().getTime();
           Response resp = new Response();
           resp.setStatus(true);
-          resp.setUpdateTime(result.get().getUpdateTime());
+          resp.setUpdateTime(tEnd-tStart);
           resp.setDocId(future.get().getId());
           return resp;
         }else{
@@ -73,13 +75,15 @@ public class TableServices {
     
       public Response deleteTable(String id) throws InterruptedException, ExecutionException {
         Firestore db = FirestoreClient.getFirestore();
+        Long tStart = java.lang.System.currentTimeMillis();
         //First, we get the table reference, to check whether the document is exist or not.
         ApiFuture<DocumentSnapshot> future = db.collection("table").document(id).get();
         if(future.get().exists()){
           ApiFuture<WriteResult> ref = db.collection("table").document(id).delete();
+          Long tEnd = ref.get().getUpdateTime().toDate().getTime();
           Response resp = new Response();
           resp.setStatus(true);
-          resp.setUpdateTime(ref.get().getUpdateTime());
+          resp.setUpdateTime(tEnd-tStart);
           return resp;
         }else{
           Response resp = new Response(false, "Document not found");
