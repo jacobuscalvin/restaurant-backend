@@ -1,7 +1,6 @@
 package com.dropthefat.dtfbackend.Interceptors;
 
 import java.util.Base64;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,7 +48,7 @@ public class AuthenInterceptor extends HandlerInterceptorAdapter{
                 response.sendError(404,"Unauthorized");
                 return false;
             }
-            
+
         }else {
             response.sendError(404,"Unauthorized");
             return false;
