@@ -1,11 +1,11 @@
 package com.dropthefat.dtfbackend.Models;
 
-public class Admin {
-    private String id;
+public class Authorization {
+    private String idEmployee;
     private String username;
     private String password;
 
-    public Admin(){ };
+    public Authorization(){ };
     
     public String getUsername() {
 		return username;
@@ -20,11 +20,12 @@ public class Admin {
 		this.password = password;
 	}
 
-	public String getId() {
-		return id;
+	public String getIdEmployee() {
+		return idEmployee;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setIdEmployee(String idEmployee) {
+		this.idEmployee = idEmployee;
 	}
+
 }
