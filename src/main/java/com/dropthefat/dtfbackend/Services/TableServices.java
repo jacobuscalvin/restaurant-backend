@@ -47,12 +47,18 @@ public class TableServices {
 
       public Response addTable(Table table) throws InterruptedException, ExecutionException {
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<DocumentReference> docRef = db.collection("table").add(table);
-        String refId = docRef.get().getId();
-        Response resp = new Response();
-        resp.setStatus(true);
-        resp.setDocId(refId);
-        return resp;
+        ApiFuture<QuerySnapshot> future = db.collection("table").whereEqualTo("tableNumber", table.getTableNumber()).get();
+        if(future.get().size() == 0){
+          ApiFuture<DocumentReference> docRef = db.collection("table").add(table);
+          String refId = docRef.get().getId();
+          Response resp = new Response();
+          resp.setStatus(true);
+          resp.setDocId(refId);
+          return resp;
+        }else{
+          return new Response(false, "Table is already used.");
+        }
+
       }
 
       public Response updateTable(String id,Table table) throws InterruptedException, ExecutionException {
