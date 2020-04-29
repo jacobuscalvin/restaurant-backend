@@ -63,19 +63,35 @@ public class TableServices {
 
       public Response updateTable(String id,Table table) throws InterruptedException, ExecutionException {
         Firestore db = FirestoreClient.getFirestore();
+        boolean update = false;
         Long tStart = java.lang.System.currentTimeMillis();
-        ApiFuture<DocumentSnapshot> future = db.collection("table").document(id).get();
-        if(future.get().exists()){
-          ApiFuture<WriteResult> ref = db.collection("table").document(id).set(table);
-          Long tEnd = ref.get().getUpdateTime().toDate().getTime();
-          Response resp = new Response();
-          resp.setStatus(true);
-          resp.setUpdateTime(tEnd-tStart);
-          resp.setDocId(future.get().getId());
-          return resp;
+        ApiFuture<DocumentSnapshot> oldRef = db.collection("table").document(id).get();
+        Integer oldTable = Integer.parseInt(oldRef.get().get("tableNumber").toString());
+        ApiFuture<QuerySnapshot> future1 = db.collection("table").whereEqualTo("tableNumber", table.getTableNumber()).get();
+
+        if(future1.get().size() == 0){
+          update = true;
+        }else if(future1.get().size() > 0 && table.getTableNumber() == oldTable){
+          update = true;
         }else{
-          return new Response(false, "Document not found!");
+          update = false;
         }
+
+        if(update == true){
+          ApiFuture<DocumentSnapshot> future = db.collection("table").document(id).get();
+          if(future.get().exists()){
+            ApiFuture<WriteResult> ref = db.collection("table").document(id).set(table);
+            Long tEnd = ref.get().getUpdateTime().toDate().getTime();
+            Response resp = new Response();
+            resp.setStatus(true);
+            resp.setUpdateTime(tEnd-tStart);
+            resp.setDocId(future.get().getId());
+            return resp;
+          }else{
+            return new Response(false, "Document not found!");
+          }
+        }
+        return new Response(false, "Table number is already used.");
         // ApiFuture<WriteResult> result = docRef.set(table);
       }
     
